@@ -4,6 +4,7 @@ import "./App.css";
 
 function App() {
   const [currentWord, setCurrentWord] = useState("react");
+  const [guessedLetters, setGuessedLetters] = useState([]);
 
   const alphabets = "abcdefghijklmnopqrstuvwxyz";
 
@@ -32,11 +33,23 @@ function App() {
 
   const keyboardButtonElements = alphabets.split("").map((letter, index) => {
     return (
-      <button key={index} className="keyboard-button">
+      <button
+        key={index}
+        className="keyboard-button"
+        onClick={() => addGuessedLetter(letter)}
+      >
         {letter.toUpperCase()}
       </button>
     );
   });
+
+  function addGuessedLetter(letter) {
+    setGuessedLetters((prevLetters) => {
+      return !prevLetters.includes(letter)
+        ? [...prevLetters, letter]
+        : prevLetters;
+    });
+  }
 
   return (
     <>
