@@ -5,6 +5,8 @@ import "./App.css";
 function App() {
   const [currentWord, setCurrentWord] = useState("react");
 
+  const alphabets = "abcdefghijklmnopqrstuvwxyz";
+
   const languageElements = languages.map((language) => {
     return (
       <span
@@ -28,6 +30,14 @@ function App() {
     );
   });
 
+  const keyboardButtonElements = alphabets.split("").map((letter, index) => {
+    return (
+      <button key={index} className="keyboard-button">
+        {letter.toUpperCase()}
+      </button>
+    );
+  });
+
   return (
     <>
       <main>
@@ -46,6 +56,8 @@ function App() {
         <section className="current-word-wrapper">
           {currentwordElements}
         </section>
+        <section className="keyboard-wrapper">{keyboardButtonElements}</section>
+        <button className="new-game">New Game</button>
       </main>
     </>
   );
