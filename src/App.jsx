@@ -3,22 +3,30 @@ import { languages } from "./languages";
 import "./App.css";
 
 function App() {
-  const languageElements = () => {
-    return languages.map((language) => {
-      return (
-        <span
-          key={language.name}
-          className="language-pill"
-          style={{
-            backgroundColor: language.backgroundColor,
-            color: language.color,
-          }}
-        >
-          {language.name}
-        </span>
-      );
-    });
-  };
+  const [currentWord, setCurrentWord] = useState("react");
+
+  const languageElements = languages.map((language) => {
+    return (
+      <span
+        key={language.name}
+        className="language-pill"
+        style={{
+          backgroundColor: language.backgroundColor,
+          color: language.color,
+        }}
+      >
+        {language.name}
+      </span>
+    );
+  });
+
+  const currentwordElements = currentWord.split("").map((letter, index) => {
+    return (
+      <span key={index} className="letter">
+        {letter.toUpperCase()}
+      </span>
+    );
+  });
 
   return (
     <>
@@ -34,8 +42,9 @@ function App() {
           <h2>You win!</h2>
           <p>Well done! 🎉</p>
         </section>
-        <section className="language-pills-wrapper">
-          {languageElements()}
+        <section className="language-pills-wrapper">{languageElements}</section>
+        <section className="current-word-wrapper">
+          {currentwordElements}
         </section>
       </main>
     </>
