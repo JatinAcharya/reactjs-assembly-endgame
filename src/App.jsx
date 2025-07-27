@@ -25,17 +25,18 @@ function App() {
   });
 
   const currentwordElements = currentWord.split("").map((letter, index) => {
+    const isGuessed = guessedLetters.includes(letter.toLowerCase());
     return (
       <span key={index} className="letter">
-        {letter.toUpperCase()}
+        {isGuessed ? letter.toUpperCase() : ""}
       </span>
     );
   });
 
   const keyboardButtonElements = alphabets.split("").map((letter, index) => {
-    const isGuessed = guessedLetters.includes(letter);
-    const isCorrect = isGuessed && currentWord.includes(letter);
-    const isWrong = isGuessed && !currentWord.includes(letter);
+    const isGuessed = guessedLetters.includes(letter.toLowerCase());
+    const isCorrect = isGuessed && currentWord.includes(letter.toLowerCase());
+    const isWrong = isGuessed && !currentWord.includes(letter.toLowerCase());
     const className = clsx({
       "keyboard-button": true,
       "is-correct": isCorrect,
@@ -45,7 +46,7 @@ function App() {
       <button
         key={index}
         className={className}
-        onClick={() => addGuessedLetter(letter)}
+        onClick={() => addGuessedLetter(letter.toLowerCase())}
       >
         {letter.toUpperCase()}
       </button>
