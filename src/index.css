@@ -79,6 +79,21 @@ header > p {
   font-size: 1rem;
   text-align: center;
   border-radius: 0.25rem;
+  position: relative;
+}
+
+.language-pill.lost::before{
+  content: "💀";
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  font-size: 0.85rem;
+  top: 0;;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .current-word-wrapper{

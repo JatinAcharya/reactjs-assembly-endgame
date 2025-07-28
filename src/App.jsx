@@ -4,16 +4,29 @@ import clsx from "clsx";
 import "./App.css";
 
 function App() {
+  // State Variables
   const [currentWord, setCurrentWord] = useState("react");
   const [guessedLetters, setGuessedLetters] = useState([]);
 
+  // Derived Variables
+  const wrongGuessCount = guessedLetters.reduce((accumulator, letter) => {
+    if (currentWord.includes(letter)) {
+      return accumulator + 0;
+    }
+    return accumulator + 1;
+  }, 0);
+
+  // Static variables
   const alphabets = "abcdefghijklmnopqrstuvwxyz";
 
-  const languageElements = languages.map((language) => {
+  const languageElements = languages.map((language, index) => {
     return (
       <span
         key={language.name}
-        className="language-pill"
+        className={clsx({
+          "language-pill": true,
+          lost: index < wrongGuessCount,
+        })}
         style={{
           backgroundColor: language.backgroundColor,
           color: language.color,
