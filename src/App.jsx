@@ -10,6 +10,7 @@ function App() {
   const [guessedLetters, setGuessedLetters] = useState([]);
 
   // Derived Variables
+  const numberOfGuessesLeft = languages.length - 1;
   const wrongGuessCount = guessedLetters.reduce((accumulator, letter) => {
     if (currentWord.includes(letter)) {
       return accumulator + 0;
@@ -19,8 +20,9 @@ function App() {
   // const isGameWon = currentWord.split('').every(letter => guessedLetters.includes(letter)); //another way to determin if the game is won
   const isGameWon =
     currentWord.length == guessedLetters.length - wrongGuessCount;
-  const isGameLost = wrongGuessCount >= languages.length - 1;
+  const isGameLost = wrongGuessCount >= numberOfGuessesLeft;
   const isGameOver = isGameWon || isGameLost ? true : false;
+  const lastGuessedLetter = guessedLetters[guessedLetters.length - 1];
   const isLastGuesssedIncorrect =
     !isGameOver && guessedLetters.length > 0 && wrongGuessCount > 0;
   // console.log("isGameOver: ", isGameOver);
@@ -66,10 +68,12 @@ function App() {
     });
     return (
       <button
-        disabled={isGameOver ? true : false}
         key={index}
         className={className}
         onClick={() => addGuessedLetter(letter.toLowerCase())}
+        disabled={isGameOver}
+        aria-disabled={guessedLetters.includes(letter)}
+        aria-label={`Letter ${letter}`}
       >
         {letter.toUpperCase()}
       </button>
@@ -92,7 +96,7 @@ function App() {
       isLastGuesssedIncorrect && "status-farewell"
     );
     return (
-      <section className={className}>
+      <section className={className} aria-live="polite" role="status">
         {isLastGuesssedIncorrect ? (
           <>
             <h2>"{getFarewellText(languages[wrongGuessCount - 1].name)}"</h2>
@@ -128,6 +132,21 @@ function App() {
         <section className="language-pills-wrapper">{languageElements}</section>
         <section className="current-word-wrapper">
           {currentwordElements}
+        </section>
+        {/* This is a visually-hidden aria-live region for status updates */}
+        <section className="sr-only" aria-live="polite" role="status">
+          <p>
+            {currentWord.includes(lastGuessedLetter)
+              ? `Correct the letter ${lastGuessedLetter} is in the word.`
+              : `Sorry, the letter ${lastGuessedLetter} is not in the word.`}
+            You have {numberOfGuessesLeft} attempts left.
+          </p>
+          <p>
+            Current word:{" "}
+            {currentWord.split("").map((letter) => {
+              return guessedLetters.includes(letter) ? letter + "." : "blank";
+            })}
+          </p>
         </section>
         <section className="keyboard-wrapper">{keyboardButtonElements}</section>
         {isGameOver && <button className="new-game">New Game</button>}
