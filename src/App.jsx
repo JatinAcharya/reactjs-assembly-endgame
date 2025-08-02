@@ -122,6 +122,11 @@ function App() {
     );
   };
 
+  const handleNewGameClick = (event) => {
+    setCurrentWord(getRandomWord());
+    setGuessedLetters([]);
+  };
+
   return (
     <>
       <main>
@@ -153,7 +158,11 @@ function App() {
           </p>
         </section>
         <section className="keyboard-wrapper">{keyboardButtonElements}</section>
-        {isGameOver && <button className="new-game">New Game</button>}
+        {isGameOver && (
+          <button className="new-game" onClick={handleNewGameClick}>
+            New Game
+          </button>
+        )}
       </main>
     </>
   );
