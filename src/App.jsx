@@ -16,6 +16,17 @@ function App() {
     return accumulator + 1;
   }, 0);
 
+  // const isGameWon = currentWord.split('').every(letter => guessedLetters.includes(letter)); //another way to determin if the game is won
+
+  const isGameWon =
+    currentWord.length == guessedLetters.length - wrongGuessCount;
+
+  const isGameLost = wrongGuessCount >= languages.length - 1;
+
+  const isGameOver = isGameWon || isGameLost ? true : false;
+
+  console.log("isGameOver: ", isGameOver);
+
   // Static variables
   const alphabets = "abcdefghijklmnopqrstuvwxyz";
 
@@ -74,6 +85,31 @@ function App() {
     });
   }
 
+  const getGameStatusElement = () => {
+    const className = clsx(
+      "game-status-wrapper",
+      isGameWon && "status-won",
+      isGameLost && "status-lost"
+    );
+    return (
+      <section className={className}>
+        {!isGameOver && null}
+        {isGameWon && (
+          <>
+            <h2>You win!</h2>
+            <p>Well done! 🎉</p>
+          </>
+        )}
+        {isGameLost && (
+          <>
+            <h2>Game over!</h2>
+            <p>You lose! Better start learning Assembly 😭</p>
+          </>
+        )}
+      </section>
+    );
+  };
+
   return (
     <>
       <main>
@@ -84,16 +120,13 @@ function App() {
             safe from Assembly!
           </p>
         </header>
-        <section className="game-status-wrapper">
-          <h2>You win!</h2>
-          <p>Well done! 🎉</p>
-        </section>
+        {getGameStatusElement()}
         <section className="language-pills-wrapper">{languageElements}</section>
         <section className="current-word-wrapper">
           {currentwordElements}
         </section>
         <section className="keyboard-wrapper">{keyboardButtonElements}</section>
-        <button className="new-game">New Game</button>
+        {isGameOver && <button className="new-game">New Game</button>}
       </main>
     </>
   );

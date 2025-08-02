@@ -42,8 +42,8 @@ header > p {
 }
 
 .game-status-wrapper{
-  background-color: #10A95B;
-  color: #F9F4DA;
+  background-color: #262626;
+  color: #D9D9D9;
   text-align: center;
   border-radius: 0.25rem;
   padding: 6px 0;
@@ -62,6 +62,16 @@ header > p {
   font-size: 1rem;
   margin: 0;
   font-weight: 500;
+}
+
+.status-won{
+  background-color: #10A95B;
+  color: #F9F4DA;
+}
+
+.status-lost{
+  background-color: #BA2A2A;
+  color: #F9F4DA;
 }
 
 .language-pills-wrapper{
