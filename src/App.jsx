@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { languages } from "./languages";
-import { getFarewellText } from "./utils";
+import { getFarewellText, getRandomWord } from "./utils";
 import clsx from "clsx";
 import "./App.css";
 
 function App() {
   // State Variables
-  const [currentWord, setCurrentWord] = useState("react");
+  const [currentWord, setCurrentWord] = useState(() => getRandomWord());
   const [guessedLetters, setGuessedLetters] = useState([]);
+  console.log(currentWord);
 
   // Derived Variables
   const numberOfGuessesLeft = languages.length - 1;
@@ -18,13 +19,14 @@ function App() {
     return accumulator + 1;
   }, 0);
   // const isGameWon = currentWord.split('').every(letter => guessedLetters.includes(letter)); //another way to determin if the game is won
-  const isGameWon =
-    currentWord.length == guessedLetters.length - wrongGuessCount;
+  const isGameWon = currentWord
+    .split("")
+    .every((letter) => guessedLetters.includes(letter));
   const isGameLost = wrongGuessCount >= numberOfGuessesLeft;
   const isGameOver = isGameWon || isGameLost ? true : false;
   const lastGuessedLetter = guessedLetters[guessedLetters.length - 1];
   const isLastGuesssedIncorrect =
-    !isGameOver && guessedLetters.length > 0 && wrongGuessCount > 0;
+    lastGuessedLetter && !currentWord.includes(lastGuessedLetter);
   // console.log("isGameOver: ", isGameOver);
 
   // Static variables
@@ -93,15 +95,17 @@ function App() {
       "game-status-wrapper",
       isGameWon && "status-won",
       isGameLost && "status-lost",
-      isLastGuesssedIncorrect && "status-farewell"
+      !isGameOver && isLastGuesssedIncorrect && "status-farewell"
     );
     return (
       <section className={className} aria-live="polite" role="status">
-        {isLastGuesssedIncorrect ? (
+        {!isGameOver && isLastGuesssedIncorrect ? (
           <>
             <h2>"{getFarewellText(languages[wrongGuessCount - 1].name)}"</h2>
           </>
-        ) : null}
+        ) : (
+          <h2></h2>
+        )}
         {isGameWon && (
           <>
             <h2>You win!</h2>
