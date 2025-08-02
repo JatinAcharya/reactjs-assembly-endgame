@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { languages } from "./languages";
+import { getFarewellText } from "./utils";
 import clsx from "clsx";
 import "./App.css";
 
@@ -15,17 +16,14 @@ function App() {
     }
     return accumulator + 1;
   }, 0);
-
   // const isGameWon = currentWord.split('').every(letter => guessedLetters.includes(letter)); //another way to determin if the game is won
-
   const isGameWon =
     currentWord.length == guessedLetters.length - wrongGuessCount;
-
   const isGameLost = wrongGuessCount >= languages.length - 1;
-
   const isGameOver = isGameWon || isGameLost ? true : false;
-
-  console.log("isGameOver: ", isGameOver);
+  const isLastGuesssedIncorrect =
+    !isGameOver && guessedLetters.length > 0 && wrongGuessCount > 0;
+  // console.log("isGameOver: ", isGameOver);
 
   // Static variables
   const alphabets = "abcdefghijklmnopqrstuvwxyz";
@@ -68,6 +66,7 @@ function App() {
     });
     return (
       <button
+        disabled={isGameOver ? true : false}
         key={index}
         className={className}
         onClick={() => addGuessedLetter(letter.toLowerCase())}
@@ -89,11 +88,16 @@ function App() {
     const className = clsx(
       "game-status-wrapper",
       isGameWon && "status-won",
-      isGameLost && "status-lost"
+      isGameLost && "status-lost",
+      isLastGuesssedIncorrect && "status-farewell"
     );
     return (
       <section className={className}>
-        {!isGameOver && null}
+        {isLastGuesssedIncorrect ? (
+          <>
+            <h2>"{getFarewellText(languages[wrongGuessCount - 1].name)}"</h2>
+          </>
+        ) : null}
         {isGameWon && (
           <>
             <h2>You win!</h2>
