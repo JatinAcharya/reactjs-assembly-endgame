@@ -53,8 +53,15 @@ function App() {
   const currentwordElements = currentWord.split("").map((letter, index) => {
     const isGuessed = guessedLetters.includes(letter.toLowerCase());
     return (
-      <span key={index} className="letter">
-        {isGuessed ? letter.toUpperCase() : ""}
+      <span
+        key={index}
+        className={clsx(
+          "letter",
+          !isGuessed && isGameLost && "game-lost-letter"
+        )}
+      >
+        {isGuessed || isGameLost ? letter.toUpperCase() : ""}
+        {/* {isGameLost && !isGuessed ? letter.toUpperCase() : ""} */}
       </span>
     );
   });

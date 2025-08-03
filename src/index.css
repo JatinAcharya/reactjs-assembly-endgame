@@ -137,6 +137,10 @@ header > p {
   padding: 0.375rem;
 }
 
+.game-lost-letter{
+  color: #EC5D49;
+}
+
 .keyboard-wrapper{
   display: flex;
   flex-wrap: wrap;
