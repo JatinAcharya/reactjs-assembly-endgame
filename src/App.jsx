@@ -28,7 +28,6 @@ function App() {
   const lastGuessedLetter = guessedLetters[guessedLetters.length - 1];
   const isLastGuesssedIncorrect =
     lastGuessedLetter && !currentWord.includes(lastGuessedLetter);
-  // console.log("isGameOver: ", isGameOver);
 
   // Static variables
   const alphabets = "abcdefghijklmnopqrstuvwxyz";
@@ -62,7 +61,6 @@ function App() {
         )}
       >
         {isGuessed || isGameLost ? letter.toUpperCase() : ""}
-        {/* {isGameLost && !isGuessed ? letter.toUpperCase() : ""} */}
       </span>
     );
   });
@@ -151,7 +149,7 @@ function App() {
         <section className="current-word-wrapper">
           {currentwordElements}
         </section>
-        {/* This is a visually-hidden aria-live region for status updates */}
+        {/* This is a visually-hidden aria-live section for status updates */}
         <section className="sr-only" aria-live="polite" role="status">
           <p>
             {currentWord.includes(lastGuessedLetter)
