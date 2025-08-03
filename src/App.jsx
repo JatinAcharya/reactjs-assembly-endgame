@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { languages } from "./languages";
 import { getFarewellText, getRandomWord } from "./utils";
+import Confetti from "react-confetti";
 import clsx from "clsx";
 import "./App.css";
 
@@ -137,6 +138,7 @@ function App() {
   return (
     <>
       <main>
+        {isGameWon && <Confetti className="confetti" />}
         <header>
           <h1>Assembly: Endgame</h1>
           <p>
